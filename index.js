@@ -1,6 +1,10 @@
 const inquirer = require('inquirer');
+const { addDepartmentPrompt, viewAllDepartments } = require('./departments');
+const connectToDb = require('./connection');
 
 async function start() {
+  const db = await connectToDb();
+
   while (true) {
     const { action } = await inquirer.prompt([
       {
@@ -45,9 +49,11 @@ async function start() {
     ]);
 
     if (action === 'view_departments') {
+      await viewAllDepartments();
     } else if (action === 'view_roles') {
     } else if (action === 'view_employees') {
     } else if (action === 'create_department') {
+      await addDepartmentPrompt(db);
     } else if (action === 'create_role') {
     } else if (action === 'create_employee') {
     } else if (action === 'update_employee_role') {
