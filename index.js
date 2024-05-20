@@ -49,7 +49,7 @@ async function start() {
     ]);
 
     if (action === 'view_departments') {
-      await viewAllDepartments();
+      await viewAllDepartments(db);
     } else if (action === 'view_roles') {
     } else if (action === 'view_employees') {
     } else if (action === 'create_department') {
