@@ -1,3 +1,4 @@
+require('dotenv').config();
 const mysql = require('mysql2/promise');
 
 async function connectToDb() {
@@ -5,6 +6,7 @@ async function connectToDb() {
     host: 'localhost',
     user: 'root',
     database: 'employee_tracker',
+    password: process.env.DB_PASSWORD
   });
 
   return db;
