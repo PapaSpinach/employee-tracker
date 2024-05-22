@@ -66,7 +66,46 @@ on employee.manager_id = manager.id
   console.table(results);
 }
 
+async function updateEmployeeRolePrompt(db) {
+  const [employees] = await db.query(
+    'select id, first_name, last_name from employee'
+  );
+
+  const [roles] = await db.query('select id, title from role');
+
+  const { employee_id, role_id } = await inquirer.prompt([
+    {
+      type: 'list',
+      name: 'employee_id',
+      message: 'Which employee would you like to update?',
+      choices: employees.map((employee) => {
+        return {
+          name: `${employee.first_name} ${employee.last_name}`,
+          value: employee.id,
+        };
+      }),
+    },
+    {
+      type: 'list',
+      name: 'role_id',
+      message: 'Which role would you like assign them to?',
+      choices: roles.map((role) => {
+        return {
+          name: role.title,
+          value: role.id,
+        };
+      }),
+    },
+  ]);
+
+  await db.execute(`UPDATE employee SET role_id = ? WHERE id = ?`, [
+    role_id,
+    employee_id,
+  ]);
+}
+
 module.exports = {
   addEmployeePrompt,
   viewAllEmployees,
+  updateEmployeeRolePrompt,
 };
