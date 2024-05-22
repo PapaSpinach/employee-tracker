@@ -74,6 +74,7 @@ async function start() {
   }
 
   console.log('Exiting database');
+  await db.end();
 }
 
 start();
